@@ -8,11 +8,9 @@ def run_greedy(maze, put_on_a_show):
     closed = []
     prev = {}
 
-    # queue.append(maze.start)
     heapq.heappush(queue, (0, maze.start))
 
     while queue:
-        # open_node = queue.pop(0)
         open_node = heapq.heappop(queue)[1]
 
         if open_node == maze.end:
@@ -24,9 +22,8 @@ def run_greedy(maze, put_on_a_show):
         neighbours = maze.get_neighbours(open_node)
         for neighbour in neighbours:
             dist_to_end = utils.get_distance(neighbour, maze.end)
-            if maze.layout[neighbour[0]][neighbour[1]] != 'X':
+            if maze.layout[neighbour[1]][neighbour[0]] != 'X':
                 if neighbour not in closed:
-                    # queue.append(neighbour)
                     heapq.heappush(queue, (dist_to_end, neighbour))
 
                     closed.append(neighbour)
@@ -34,7 +31,7 @@ def run_greedy(maze, put_on_a_show):
 
         closed.append(open_node)
         if open_node != maze.start:
-            maze.layout[open_node[0]][open_node[1]] = 'O'
+            maze.layout[open_node[1]][open_node[0]] = 'O'
 
         if put_on_a_show:
             maze.print_maze()

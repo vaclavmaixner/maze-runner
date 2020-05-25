@@ -14,13 +14,13 @@ def run_dfs(maze, put_on_a_show):
 
         if open_node == maze.end:
             maze = utils.reconstruct_path(maze, prev, maze.start, maze.end)
-            maze.report(name=DFS)
+            maze.report(name='DFS')
 
             return maze
 
         neighbours = maze.get_neighbours(open_node)
         for neighbour in neighbours:
-            if maze.layout[neighbour[0]][neighbour[1]] != 'X':
+            if maze.layout[neighbour[1]][neighbour[0]] != 'X':
                 if neighbour not in closed:
                     queue.append(neighbour)
                     closed.append(neighbour)
@@ -28,7 +28,7 @@ def run_dfs(maze, put_on_a_show):
 
         closed.append(open_node)
         if open_node != maze.start:
-            maze.layout[open_node[0]][open_node[1]] = 'O'
+            maze.layout[open_node[1]][open_node[0]] = 'O'
 
         if put_on_a_show:
             maze.print_maze()

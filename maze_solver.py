@@ -1,9 +1,7 @@
-import pprint
-import random
 from termcolor import colored, cprint
-import os
+import os, time
 import utils
-import time
+import numpy as np
 
 from random_search import run_random_search
 from bfs import run_bfs
@@ -23,7 +21,7 @@ class Maze():
         self.setup_start_end()
 
     def print_maze(self):
-        # os.system('cls' if os.name == 'nt' else 'clear')
+        os.system('cls' if os.name == 'nt' else 'clear')
 
         for i in range(len(self.layout)):
             for j in range(len(self.layout[0])):
@@ -40,21 +38,15 @@ class Maze():
                 elif self.layout[i][j] == 'P':    # path
                     cprint('\u2588\u2588', 'blue', end='')
             print()
-        time.sleep(0.1)
+        time.sleep(0.05)
 
     def setup_start_end(self):
-        self.layout[self.start[0]][self.start[1]] = 'S'
-        print()
-        print(len(self.layout))
-        print(len(self.layout[0]))
-        print(self.end[0])
-        print(self.end[1])
-
-        self.layout[self.end[0]][self.end[1]] = 'E'
+        self.layout[self.start[1]][self.start[0]] = 'S'
+        self.layout[self.end[1]][self.end[0]] = 'E'
 
     def get_neighbours(self, node):
-        x, y = node
-        neighbours = [(x, y+1), (x+1, y), (x, y-1), (x - 1, y)]
+        y, x = node
+        neighbours = [(y + 1, x), (y, x + 1), (y-1, x), (y, x - 1)]
         return neighbours
 
     def report(self, name):
@@ -70,7 +62,7 @@ class Maze():
                 elif self.layout[i][j] == 'P':    # path
                     path_counter += 1
         opened_counter += path_counter
-        
+
         print(30 * '-')
         print(name)
         print(30 * '-')
@@ -89,19 +81,19 @@ class Maze():
         print('Path length:', path_counter)
 
 
-
 def Main():
-    layout = open('testovaci_data/00_11_11_1550177690.txt', 'r')
+    layout = open('vstup.txt', 'r')
+    # layout = open('testovaci_data/00_11_11_1550177690.txt', 'r')
 
     pl = utils.process_layout(layout)
     maze = Maze(pl[0], pl[1], pl[2])
 
-    # run_random_search(maze, put_on_a_show=False)
-    # run_bfs(maze, put_on_a_show=False)
-    # run_dfs(maze, put_on_a_show=False)
-    # run_dijkstra(maze, put_on_a_show=False)
-    # run_greedy(maze, put_on_a_show=False)
-    run_a_star(maze, put_on_a_show=False)
+    run_random_search(maze, put_on_a_show=True)
+    # run_bfs(maze, put_on_a_show=True)
+    # run_dfs(maze, put_on_a_show=True)
+    # run_dijkstra(maze, put_on_a_show=True)
+    # run_greedy(maze, put_on_a_show=True)
+    # run_a_star(maze, put_on_a_show=True)
 
 
 Main()

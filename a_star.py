@@ -9,12 +9,10 @@ def run_a_star(maze, put_on_a_show):
     prev = {}
     distance = {}
 
-    # queue.append(maze.start)
     heapq.heappush(queue, (0, maze.start))
     distance[maze.start] = 0
 
     while queue:
-        # open_node = queue.pop(0)
         open_node = heapq.heappop(queue)[1]
 
         if open_node == maze.end:
@@ -28,7 +26,7 @@ def run_a_star(maze, put_on_a_show):
             if neighbour not in closed:
                 distance_to_node = distance[open_node] + utils.get_distance(open_node, neighbour)
                 distance_to_end = utils.get_distance(neighbour, maze.end)
-                if maze.layout[neighbour[0]][neighbour[1]] != 'X':
+                if maze.layout[neighbour[1]][neighbour[0]] != 'X':
                     if (neighbour not in queue) or (distance_to_node < distance[neighbour]):
                         prev[neighbour] = open_node
                         distance[neighbour] = distance_to_node
@@ -39,7 +37,7 @@ def run_a_star(maze, put_on_a_show):
 
         closed.append(open_node)
         if open_node != maze.start:
-            maze.layout[open_node[0]][open_node[1]] = 'O'
+            maze.layout[open_node[1]][open_node[0]] = 'O'
 
         if put_on_a_show:
             maze.print_maze()
